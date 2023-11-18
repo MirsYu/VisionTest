@@ -1,0 +1,156 @@
+﻿<UserControl xmlns:Renders="clr-namespace:WpfVisionTest.Renders"  x:Class="WpfVisionTest.BlobFindTool._BlobFindTool"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:WpfVisionTest.BlobFindTool"
+             xmlns:converters="clr-namespace:WpfVisionTest.BlobFindTool"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="900">
+
+    <UserControl.DataContext>
+        <vm:UserControlBlobFindToolViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+
+        <!-- 定义用于 Integer 类型节点的 DataTemplate -->
+        <DataTemplate x:Key="IntegerTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <!-- Fixed width for the label -->
+                    <ColumnDefinition Width="*" />
+                    <!-- The rest of the space for the control -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Auto size for the value -->
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding _DisplayName}" />
+                <!-- 在此定义 CMvdNodeInteger 类型节点的 UI 控件 -->
+                <Slider Grid.Column="1" x:Name="IntegerSlider" Minimum="{Binding _MinValue}" Maximum="{Binding _MaxValue}" Value="{Binding _Value,Mode=TwoWay}" IsSnapToTickEnabled="True" TickFrequency="{Binding _IncValue}" Width="200" Height="30" />
+                <TextBlock Grid.Column="2" Text="{Binding _Value}" HorizontalAlignment="Stretch" />
+            </Grid>
+        </DataTemplate>
+
+        <!-- 定义用于 Float 类型节点的 DataTemplate -->
+        <DataTemplate x:Key="FloatTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <!-- Fixed width for the label -->
+                    <ColumnDefinition Width="*" />
+                    <!-- The rest of the space for the control -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Auto size for the value -->
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding _DisplayName}" />
+                <!-- 在此定义 CMvdNodeFloat 类型节点的 UI 控件（例如 Slider） -->
+                <Slider Grid.Column="1" x:Name="FloatSlider" Minimum="{Binding _MinValue}" Maximum="{Binding _MaxValue}" Value="{Binding _Value,Mode=TwoWay}" IsSnapToTickEnabled="True" TickFrequency="{Binding _IncValue}" Width="200" Height="30" />
+                <TextBlock Grid.Column="2" Text="{Binding _Value}" HorizontalAlignment="Stretch" />
+            </Grid>
+        </DataTemplate>
+
+        <!-- 定义用于 Boolean 类型节点的 DataTemplate -->
+        <DataTemplate x:Key="BooleanTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <!-- Fixed width for the label -->
+                    <ColumnDefinition Width="*" />
+                    <!-- The rest of the space for the control -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Auto size for the value -->
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding _DisplayName}" />
+                <!-- 在此定义 CMvdNodeBoolean 类型节点的 UI 控件（例如 CheckBox） -->
+                <CheckBox Grid.Column="1" x:Name="BooleanCheckBox" IsChecked="{Binding IsSwitchOn}" Width="200" Height="30" />
+                <TextBlock Grid.Column="2" Text="{Binding TextToShow}" HorizontalAlignment="Stretch" />
+            </Grid>
+        </DataTemplate>
+
+        <!-- 定义用于 Enumeration 类型节点的 DataTemplate -->
+        <DataTemplate x:Key="EnumerationTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <!-- Fixed width for the label -->
+                    <ColumnDefinition Width="*" />
+                    <!-- The rest of the space for the control -->
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding _DisplayName}" />
+                <!-- 在此定义 CMvdNodeEnumeration 类型节点的 UI 控件（例如 ComboBox） -->
+                <ComboBox Grid.Column="1" x:Name="EnumerationComboBox" ItemsSource="{Binding _EnumRange}" SelectedValue="{Binding _ValueEnum, Mode=TwoWay}" Width="200" Height="30">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+
+
+        <!-- 创建 NodeDataTemplateSelector 并指定对应的 DataTemplate -->
+        <converters:NodeDataTemplateSelector x:Key="NodeDataTemplateSelector"
+                                             IntegerTemplate="{StaticResource IntegerTemplate}"
+                                             FloatTemplate="{StaticResource FloatTemplate}"
+                                             BooleanTemplate="{StaticResource BooleanTemplate}"
+                                             EnumerationTemplate="{StaticResource EnumerationTemplate}" />
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- Rendering control and buttons -->
+            <ColumnDefinition Width="*"/>
+            <!-- Scrollable list -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Column: Rendering control and buttons -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+            <!-- Grid container for the rendering control with border -->
+            <Grid>
+                <Border BorderBrush="Black" BorderThickness="1" Padding="2" Width="406" Height="306" Margin="1">
+                    <Renders:UserControlRender x:Name="_RenderControl" Width="400" Height="300"/>
+                </Border>
+            </Grid>
+
+            <!-- Button 1 with fixed width and height -->
+            <Button Content="运行" Width="100" Height="30" Margin="0,10,0,10" Click="Button_Click"/>
+            <!-- Add more buttons as needed -->
+
+            <!-- TextBox for displaying log -->
+            <TextBox x:Name="LogTextBox" Width="400" Height="150" Margin="0,10,0,10" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+        </StackPanel>
+
+        <!-- Right Column: Scrollable lists inside ScrollViewer -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="10,10,10,10" Grid.Column="1">
+            <DockPanel>
+                <!-- Grid for the first Expander (BeginnerToolRunValues) -->
+                <Grid DockPanel.Dock="Top">
+                    <Expander Header="基础参数">
+                        <ListBox ItemsSource="{Binding BeginnerToolRunValues}" MinWidth="400">
+                            <!-- 使用 NodeDataTemplateSelector 来选择合适的 DataTemplate -->
+                            <ListBox.ItemTemplateSelector>
+                                <StaticResource ResourceKey="NodeDataTemplateSelector" />
+                            </ListBox.ItemTemplateSelector>
+                        </ListBox>
+                    </Expander>
+                </Grid>
+
+                <!-- Grid for the second Expander (ExpertToolRunValues) -->
+                <Grid DockPanel.Dock="Top">
+                    <Expander Header="高级参数">
+                        <ListBox ItemsSource="{Binding ExpertToolRunValues}" MinWidth="400">
+                            <!-- 使用 NodeDataTemplateSelector 来选择合适的 DataTemplate -->
+                            <ListBox.ItemTemplateSelector>
+                                <StaticResource ResourceKey="NodeDataTemplateSelector" />
+                            </ListBox.ItemTemplateSelector>
+                        </ListBox>
+                    </Expander>
+                </Grid>
+            </DockPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

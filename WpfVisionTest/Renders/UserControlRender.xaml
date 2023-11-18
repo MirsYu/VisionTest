@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="WpfVisionTest.Renders.UserControlRender"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wf="clr-namespace:VisionDesigner;assembly=MvRenderActiveX.Net"
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        Height="200" Width="300">
+    <Grid>
+        <wfi:WindowsFormsHost>
+            <wf:MVDRenderActivex x:Name="RenderActiveX"/>
+        </wfi:WindowsFormsHost>
+    </Grid>
+</UserControl>

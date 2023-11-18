@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,8 +36,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.MvRenderActivexLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=da2fd3581884613a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Common\AxInterop.MvRenderActivexLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="MVDBlobFind.Net, Version=4.2.1.4, Culture=neutral, PublicKeyToken=1ddaedcf30433c37, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Algorithms\MVDBlobFind.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MVDCore.Net, Version=4.2.1.4, Culture=neutral, PublicKeyToken=1325730a174c0650, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Common\MVDCore.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MVDImage.Net, Version=4.2.1.4, Culture=neutral, PublicKeyToken=ce2c144a3e6a9a93, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Common\MVDImage.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MVDShape.Net, Version=4.2.1.4, Culture=neutral, PublicKeyToken=a59215ef735587a6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Common\MVDShape.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MvRenderActiveX.Net, Version=4.2.1.4, Culture=neutral, PublicKeyToken=da2fd3581884613a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MVDAlgorithmSDK\ReferencedAssemblies\Common\MvRenderActiveX.Net.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
@@ -47,6 +75,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,16 +87,25 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="BlobFindTool\UserControlBlobFindTool.xaml">
+    <Compile Include="BlobFindTool\NodeDataTemplateSelector.cs" />
+    <Compile Include="BlobFindTool\VisibilityConverter.cs" />
+    <Compile Include="Global\ImageConverter.cs" />
+    <Compile Include="Global\XmlParse.cs" />
+    <Compile Include="Renders\UserControlRender.xaml.cs">
+      <DependentUpon>UserControlRender.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BlobFindTool\_BlobFindTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -81,11 +121,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BlobFindTool\UserControlBlobFindTool.xaml.cs">
-      <DependentUpon>UserControlBlobFindTool.xaml</DependentUpon>
+    <Compile Include="BlobFindTool\_BlobFindTool.xaml.cs">
+      <DependentUpon>_BlobFindTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="BlobFindTool\UserControlBlobFindToolModel.cs" />
     <Compile Include="BlobFindTool\UserControlBlobFindToolViewModel.cs" />
+    <Compile Include="Log\AsyncAppender.cs" />
+    <Compile Include="Log\LogManager.cs" />
     <Compile Include="MainUI\UserControlMainUI.xaml.cs">
       <DependentUpon>UserControlMainUI.xaml</DependentUpon>
     </Compile>
@@ -94,6 +136,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Renders\UserControlRender.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -121,6 +167,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BlobFindTool\Image.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Log\log4net.config.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

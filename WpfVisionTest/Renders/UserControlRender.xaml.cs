@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,18 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisionDesigner;
 
-namespace WpfVisionTest.BlobFindTool
+namespace WpfVisionTest.Renders
 {
     /// <summary>
-    /// UserControlBlobFindTool.xaml 的交互逻辑
+    /// UserControlRender.xaml 的交互逻辑
     /// </summary>
-    public partial class UserControlBlobFindTool : UserControl
+    public partial class UserControlRender : UserControl
     {
-        public UserControlBlobFindTool()
+        public UserControlRender()
         {
             InitializeComponent();
-            DataContext = new UserControlBlobFindToolViewModel();
+        }
+
+        public MVDRenderActivex GetSubject()
+        {
+            return RenderActiveX;
         }
     }
 }
